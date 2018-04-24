@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = "info@openproject.org"
   s.homepage    = "https://community.openproject.org/projects/worklog-limiter"  # TODO check this URL
   s.summary     = 'OpenProject Worklog Limiter'
-  s.description = "FIXME"
+  s.description = "Plugin for time log limiting"
   s.license     = "FIXME" # e.g. "MIT" or "GPLv3"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
