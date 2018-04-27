@@ -14,12 +14,16 @@ module OpenProject
         module ClassMethods
           BUFFER_TIME = 12.hours.freeze
 
-          def available_for_time_log_range
-            if Time.zone.now < Time.zone.now.beginning_of_week + BUFFER_TIME
-              Date.today.beginning_of_week - 1.week .. Date.today
+          def current_week_dates
+            now = Time.zone.now
+
+            first_date = if now < now.beginning_of_week + BUFFER_TIME
+              now.to_date.beginning_of_week - 1.week
             else
-              Date.today.beginning_of_week .. Date.today
+              now.to_date.beginning_of_week
             end
+
+            first_date..now.to_date
           end
         end
 
@@ -27,10 +31,10 @@ module OpenProject
           private
 
           def spent_on_current_week
-            if (!self.class.available_for_time_log_range.include?(spent_on) &&
+            if (!self.class.current_week_dates.include?(spent_on) &&
                 !user.allowed_to?(:log_time_for_any_date, project))
-              errors.add(:spent_on, :after, date: self.class.available_for_time_log_range.first)
-              errors.add(:spent_on, :before, date: self.class.available_for_time_log_range.last)
+              errors.add(:spent_on, :after, date: self.class.current_week_dates.first)
+              errors.add(:spent_on, :before, date: self.class.current_week_dates.last)
             end
           end
         end
