@@ -1,7 +1,46 @@
 # OpenProject Worklog Limiter Plugin
 
-FIXME Add description and check issue tracker link below
+This plugin restricts time log only for current week, but users can be allowed to log time for any date by admin.
 
-## Issue Tracker
+Requirements
+------------
 
-https://community.openproject.org/projects/worklog-limiter/work_packages
+The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/).
+
+Installation
+------------
+
+For OpenProject Costs itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
+
+`gem "openproject-worklog_limiter", git: "https://github.com/rubyroidlabs/openproject-worklog-limiter"`
+
+Afterwards, run:
+
+`bundle install`
+
+This plugin contains migrations. To migrate the database, run:
+
+`rake db:migrate`
+
+Usage
+------------
+
+By default, every user is allowed to log time only for current week and for previous week if time entry is created at Monday before 12:00.
+
+If you want to make an exception for user, go to `Edit user page / Custom fields` and check `Allow log time for any date` checkbox. After that user will be allowed to log time for any date for one day.
+
+By default, only users with role `Member` are allowed to log time for any date. If you want to add this ability to another role, go to `Roles and permissions / Edit role / Time tracking` and check `Log time for any date` checkbox.
+
+Deinstallation
+--------------
+
+Remove the line
+
+`gem "openproject-worklog_limiter", git: "https://github.com/rubyroidlabs/openproject-worklog-limiter"` from the file `Gemfile.plugins` and run `bundle install`
+
+Please note that this leaves plugin data in the database. Currently, we do not support full uninstall of the plugin.
+
+Tests
+--------------
+
+To run plugin's tests run `bundle exec rake spec:plugins` in OpenProject core directory
