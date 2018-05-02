@@ -12,7 +12,7 @@ module OpenProject::WorklogLimiter
              :author_url => 'https://openproject.org',
              :requires_openproject => '>= 6.0.0'
 
-    patches [:TimeEntry, :User, :UserCustomField, :'Authorization::UserAllowedService']
+    patches [:TimeEntry, :User, :UserCustomField, :'Authorization::UserAllowedService', :CustomValue]
 
   end
 end

@@ -31,6 +31,8 @@ module OpenProject
           private
 
           def spent_on_current_week
+            return if user.blank? || project.blank?
+
             if (!self.class.current_week_dates.include?(spent_on) &&
                 !user.allowed_to?(:log_time_for_any_date, project))
               errors.add(:spent_on, :after, date: self.class.current_week_dates.first)
