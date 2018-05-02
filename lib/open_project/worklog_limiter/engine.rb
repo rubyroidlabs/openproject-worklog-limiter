@@ -10,7 +10,14 @@ module OpenProject::WorklogLimiter
 
     register 'openproject-worklog_limiter',
              :author_url => 'https://openproject.org',
-             :requires_openproject => '>= 6.0.0'
+             :requires_openproject => '>= 6.0.0' do
+
+      project_module(:time_tracking) do
+        permission  :log_time_for_any_date,
+                    { timelog: [:new, :create, :edit, :update] },
+                    require: :loggedin
+      end
+    end
 
     patches [:TimeEntry, :User, :UserCustomField, :'Authorization::UserAllowedService', :CustomValue]
 
