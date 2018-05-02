@@ -11,6 +11,16 @@ module OpenProject
         module InstanceMethods
           ALLOW_LOG_TIME_FOR_ANY_DATE_FOR =  1.day.freeze
 
+          def allowed_log_time_for_any_date?
+            allow_log_time_for_any_date_option_present? &&
+            log_time_for_any_date_permission_not_expired?
+          end
+
+          def log_time_for_any_date_permission_not_expired?
+            log_time_for_any_date_expires_at.present? &&
+            Time.zone.now < log_time_for_any_date_expires_at
+          end
+
           def allow_log_time_for_any_date_option_present?
             field = UserCustomField.find_by(name: UserCustomField::ALLOW_LOG_TIME_FOR_ANY_DATE_LABEL)
             custom_value = custom_values.find { |custom_value| custom_value.custom_field == field }
@@ -19,10 +29,10 @@ module OpenProject
 
           def set_log_time_for_any_date_expires_at
             expires_at = if allow_log_time_for_any_date_option_present?
-              Time.zone.now + User::ALLOW_LOG_TIME_FOR_ANY_DATE_FOR
-            else
-              nil
-            end
+                            Time.zone.now + User::ALLOW_LOG_TIME_FOR_ANY_DATE_FOR
+                          else
+                            nil
+                          end
             update(log_time_for_any_date_expires_at: expires_at)
           end
         end

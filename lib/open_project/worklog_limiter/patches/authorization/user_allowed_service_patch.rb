@@ -16,9 +16,7 @@ module OpenProject
               case action.to_sym
               when :log_time_for_any_date
                 super &&
-                user.allow_log_time_for_any_date_option_present? &&
-                user.log_time_for_any_date_expires_at.present? &&
-                Time.zone.now < user.log_time_for_any_date_expires_at
+                user.allowed_log_time_for_any_date?
               else
                 super
               end              

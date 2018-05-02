@@ -18,12 +18,12 @@ module OpenProject
             now = Time.zone.now
 
             first_date = if now < now.beginning_of_week + BUFFER_TIME
-              now.to_date.beginning_of_week - 1.week
-            else
-              now.to_date.beginning_of_week
-            end
+                            now.beginning_of_week - 1.week
+                          else
+                            now.beginning_of_week
+                          end
 
-            first_date..now.to_date
+            first_date.to_date..now.to_date
           end
         end
 

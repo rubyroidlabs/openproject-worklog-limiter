@@ -29,7 +29,7 @@ By default, every user is allowed to log time only for current week and for prev
 
 If you want to make an exception for user, go to `Edit user page / Custom fields` and check `Allow log time for any date` checkbox. After that user will be allowed to log time for any date for one day.
 
-By default, only users with role `Member` are allowed to log time for any date. If you want to add this ability to another role, go to `Roles and permissions / Edit role / Time tracking` and check `Log time for any date` checkbox.
+By default, all roles are allowed to log time for any date. If you want to remove this ability or create another role and add ability, go to `Roles and permissions / Edit role / Time tracking` and check/uncheck `Log time for any date` checkbox.
 
 Deinstallation
 --------------

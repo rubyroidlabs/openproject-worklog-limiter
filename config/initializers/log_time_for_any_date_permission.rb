@@ -6,4 +6,4 @@ Redmine::AccessControl.map do |map|
   end
 end
 
-Role.find_by(name: 'Member')&.add_permission!(:log_time_for_any_date)
+Role.all.each { |role| role.add_permission!(:log_time_for_any_date) }
