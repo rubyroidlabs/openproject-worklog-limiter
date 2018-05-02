@@ -5,9 +5,6 @@ module OpenProject
         def self.included(base)
           base.class_eval do
             include InstanceMethods
-
-            before_save :set_add_worklog_any_date_expires_at,
-              if: :log_time_for_any_date_changed?
           end
         end
 
@@ -20,23 +17,14 @@ module OpenProject
             custom_value && custom_value.value == 't'
           end
 
-          private
-
-          def set_add_worklog_any_date_expires_at
-            self.log_time_for_any_date_expires_at = if allow_log_time_for_any_date_option_present?
-              Time.zone.now + ALLOW_LOG_TIME_FOR_ANY_DATE_FOR
+          def set_log_time_for_any_date_expires_at
+            expires_at = if allow_log_time_for_any_date_option_present?
+              Time.zone.now + User::ALLOW_LOG_TIME_FOR_ANY_DATE_FOR
             else
               nil
             end
+            update(log_time_for_any_date_expires_at: expires_at)
           end
-        end
-
-        def log_time_for_any_date_changed?
-          custom_value = custom_values.find do |custom_value|
-            custom_field = custom_value.custom_field
-            custom_field.name == UserCustomField::ALLOW_LOG_TIME_FOR_ANY_DATE_LABEL
-          end
-          custom_value && custom_value.value_changed?
         end
       end
     end
